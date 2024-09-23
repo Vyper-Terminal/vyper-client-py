@@ -1,7 +1,7 @@
 import unittest
 import json
 import sys
-from unittest.mock import patch, AsyncMock
+from unittest.mock import patch
 from src.vyper_client_py.websocket_client import VyperWebsocketClient, FeedType, SubscriptionType, SubscriptionMessageType
 from src.vyper_client_py.exceptions import VyperWebsocketException
 
