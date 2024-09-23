@@ -2,8 +2,8 @@ import unittest
 import json
 import websockets
 from unittest.mock import patch, AsyncMock
-from src.websocket_client import VyperWebsocketClient, FeedType, SubscriptionType, SubscriptionMessageType
-from src.exceptions import VyperWebsocketException
+from src.vyper_client_py.websocket_client import VyperWebsocketClient, FeedType, SubscriptionType, SubscriptionMessageType
+from src.vyper_client_py.exceptions import VyperWebsocketException
 
 class TestVyperWebsocketClient(unittest.IsolatedAsyncioTestCase):
     def setUp(self):

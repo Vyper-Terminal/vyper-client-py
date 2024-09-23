@@ -1,9 +1,9 @@
 import unittest
 import requests
 from unittest.mock import patch, Mock
-from src.client import VyperClient
-from src.exceptions import AuthenticationError, RateLimitError, ServerError, VyperApiException
-from src.classes import TokenHolder, TokenATH, TokenPair, MigrationState, TokenMarket, TokenMetadata, TokenSymbol, TokenSearchResult, TopTrader, WalletAggregatedPnL, WalletHolding, WalletPnL, TokenPairs
+from src.vyper_client_py.client import VyperClient
+from src.vyper_client_py.exceptions import AuthenticationError, RateLimitError, ServerError, VyperApiException
+from src.vyper_client_py.classes import TokenHolder, TokenATH, TokenPair, MigrationState, TokenMarket, TokenMetadata, TokenSymbol, TokenSearchResult, TopTrader, WalletAggregatedPnL, WalletHolding, WalletPnL, TokenPairs
 
 class TestVyperClient(unittest.TestCase):
     def setUp(self):
