@@ -1,8 +1,14 @@
 import unittest
 import json
+import sys
 from unittest.mock import patch, AsyncMock
 from src.vyper_client_py.websocket_client import VyperWebsocketClient, FeedType, SubscriptionType, SubscriptionMessageType
 from src.vyper_client_py.exceptions import VyperWebsocketException
+
+if sys.version_info >= (3, 8):
+    from unittest.mock import AsyncMock
+else:
+    from asynctest import CoroutineMock as AsyncMock
 
 class TestVyperWebsocketClient(unittest.IsolatedAsyncioTestCase):
     def setUp(self):

@@ -26,3 +26,9 @@ jobs:
       - name: Run tests
         run: |
           python -m unittest discover tests
+      - name: Upload test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-results-${{ matrix.python-version }}
+          path: test-results/
+        if: always()
