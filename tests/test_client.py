@@ -9,7 +9,7 @@ class TestVyperClient(unittest.TestCase):
     def setUp(self):
         self.client = VyperClient(api_key="test_key")
 
-    @patch("src.client.requests.Session.request")
+    @patch("src.vyper_client_py.client.requests.Session.request")
     def test_get_chain_ids_success(self, mock_request):
         mock_response = {
             "status": "success",
@@ -36,7 +36,7 @@ class TestVyperClient(unittest.TestCase):
             params=None
         )
 
-    @patch("src.client.requests.Session.request")
+    @patch("src.vyper_client_py.client.requests.Session.request")
     def test_rate_limit_error(self, mock_request):
         mock_response = Mock()
         mock_response.status_code = 429
@@ -51,7 +51,7 @@ class TestVyperClient(unittest.TestCase):
         self.assertEqual(context.exception.retry_after, 3.00)
         self.assertIn("Rate limit exceeded", str(context.exception))
 
-    @patch("src.client.requests.Session.request")
+    @patch("src.vyper_client_py.client.requests.Session.request")
     def test_authentication_error(self, mock_request):
         mock_response = Mock()
         mock_response.status_code = 401
@@ -64,7 +64,7 @@ class TestVyperClient(unittest.TestCase):
 
         self.assertIn("Invalid or expired API key", str(context.exception))
 
-    @patch("src.client.requests.Session.request")
+    @patch("src.vyper_client_py.client.requests.Session.request")
     def test_server_error(self, mock_request):
         mock_response = Mock()
         mock_response.status_code = 500
@@ -77,7 +77,7 @@ class TestVyperClient(unittest.TestCase):
 
         self.assertIn("Server error: 500", str(context.exception))
 
-    @patch("src.client.requests.Session.request")
+    @patch("src.vyper_client_py.client.requests.Session.request")
     def test_other_http_error(self, mock_request):
         mock_response = Mock()
         mock_response.status_code = 403
@@ -90,7 +90,7 @@ class TestVyperClient(unittest.TestCase):
 
         self.assertIn("HTTP error occurred", str(context.exception))
 
-    @patch("src.client.requests.Session.request")
+    @patch("src.vyper_client_py.client.requests.Session.request")
     def test_network_error(self, mock_request):
         mock_request.side_effect = requests.exceptions.ConnectionError("Network error")
 
@@ -99,7 +99,7 @@ class TestVyperClient(unittest.TestCase):
 
         self.assertIn("An error occurred", str(context.exception))
 
-    @patch("src.client.requests.Session.request")
+    @patch("src.vyper_client_py.client.requests.Session.request")
     def test_get_token_ath_success(self, mock_request):
         mock_response = {
             "status": "success",
@@ -125,7 +125,7 @@ class TestVyperClient(unittest.TestCase):
             params={"chainID": 1, "marketID": "BTC"}
         )
 
-    @patch("src.client.requests.Session.request")
+    @patch("src.vyper_client_py.client.requests.Session.request")
     def test_get_token_market_success(self, mock_request):
         mock_response = {
             "status": "success",
@@ -195,7 +195,7 @@ class TestVyperClient(unittest.TestCase):
             params={"chainID": 900, "interval": "24h"}
         )
 
-    @patch("src.client.requests.Session.request")
+    @patch("src.vyper_client_py.client.requests.Session.request")
     def test_get_token_holders_success(self, mock_request):
         mock_response = {
             "status": "success",
@@ -249,7 +249,7 @@ class TestVyperClient(unittest.TestCase):
         with self.assertRaises(AuthenticationError):
             client.get_token_holders(market_id="TEST-SOL", chain_id=900)
 
-    @patch("src.client.requests.Session.request")
+    @patch("src.vyper_client_py.client.requests.Session.request")
     def test_get_chain_ids_no_auth(self, mock_request):
         mock_response = {
             "status": "success",
@@ -278,7 +278,7 @@ class TestVyperClient(unittest.TestCase):
             self.assertNotIn('headers', called_kwargs)
             
     
-    @patch("src.client.requests.Session.request")
+    @patch("src.vyper_client_py.client.requests.Session.request")
     def test_get_token_markets_success(self, mock_request):
         mock_response = {
             "status": "success",
@@ -308,7 +308,7 @@ class TestVyperClient(unittest.TestCase):
             params={"tokenMint": "0x1234...", "chainID": 1}
         )
 
-    @patch("src.client.requests.Session.request")
+    @patch("src.vyper_client_py.client.requests.Session.request")
     def test_get_token_metadata_success(self, mock_request):
         mock_response = {
             "status": "success",
@@ -340,7 +340,7 @@ class TestVyperClient(unittest.TestCase):
             params={"chainID": 1, "tokenMint": "0x1234..."}
         )
 
-    @patch("src.client.requests.Session.request")
+    @patch("src.vyper_client_py.client.requests.Session.request")
     def test_get_token_symbol_success(self, mock_request):
         mock_response = {
             "status": "success",
@@ -362,7 +362,7 @@ class TestVyperClient(unittest.TestCase):
             params={"chainID": 1, "tokenMint": "0x1234..."}
         )
     
-    @patch("src.client.requests.Session.request")
+    @patch("src.vyper_client_py.client.requests.Session.request")
     def test_get_top_traders_success(self, mock_request):
         mock_response = {
             "status": "success",
@@ -397,7 +397,7 @@ class TestVyperClient(unittest.TestCase):
             params={"marketID": "BTC-USD", "chainID": 1}
         )
 
-    @patch("src.client.requests.Session.request")
+    @patch("src.vyper_client_py.client.requests.Session.request")
     def test_search_tokens_success(self, mock_request):
         mock_response = {
             "status": "success",
@@ -438,7 +438,7 @@ class TestVyperClient(unittest.TestCase):
             params={"criteria": "Bitcoin", "chainID": 1}
         )
     
-    @patch("src.client.requests.Session.request")
+    @patch("src.vyper_client_py.client.requests.Session.request")
     def test_get_wallet_aggregated_pnl_success(self, mock_request):
         mock_response = {
             "status": "success",
@@ -470,7 +470,7 @@ class TestVyperClient(unittest.TestCase):
             params={"walletAddress": "0x1234...", "chainID": 1}
         )
 
-    @patch("src.client.requests.Session.request")
+    @patch("src.vyper_client_py.client.requests.Session.request")
     def test_get_wallet_holdings_success(self, mock_request):
         mock_response = {
             "status": "success",
@@ -508,7 +508,7 @@ class TestVyperClient(unittest.TestCase):
             params={"walletAddress": "0x1234...", "chainID": 1}
         )
 
-    @patch("src.client.requests.Session.request")
+    @patch("src.vyper_client_py.client.requests.Session.request")
     def test_get_wallet_pnl_success(self, mock_request):
         mock_response = {
             "status": "success",
@@ -542,7 +542,7 @@ class TestVyperClient(unittest.TestCase):
             params={"walletAddress": "0x1234...", "marketID": "BTC-USD", "chainID": 1}
         )
 
-    @patch("src.client.requests.Session.request")
+    @patch("src.vyper_client_py.client.requests.Session.request")
     def test_wallet_functions_authentication_error(self, mock_request):
         mock_response = Mock()
         mock_response.status_code = 401
@@ -559,7 +559,7 @@ class TestVyperClient(unittest.TestCase):
         with self.assertRaises(AuthenticationError):
             self.client.get_wallet_pnl(wallet_address="0x1234...", market_id="BTC-USD", chain_id=1)
 
-    @patch("src.client.requests.Session.request")
+    @patch("src.vyper_client_py.client.requests.Session.request")
     def test_wallet_functions_rate_limit_error(self, mock_request):
         mock_response = Mock()
         mock_response.status_code = 429
@@ -580,7 +580,7 @@ class TestVyperClient(unittest.TestCase):
             self.client.get_wallet_pnl(wallet_address="0x1234...", market_id="BTC-USD", chain_id=1)
         self.assertEqual(context.exception.retry_after, 60.0)
     
-    @patch("src.client.requests.Session.request")
+    @patch("src.vyper_client_py.client.requests.Session.request")
     def test_get_token_pairs_success(self, mock_request):
         mock_response = {
             "status": "success",
