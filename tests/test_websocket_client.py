@@ -7,10 +7,12 @@ from src.vyper_client_py.exceptions import VyperWebsocketException
 
 if sys.version_info >= (3, 8):
     from unittest.mock import AsyncMock
+    from unittest import IsolatedAsyncioTestCase
 else:
     from asynctest import CoroutineMock as AsyncMock
+    from asynctest import TestCase as IsolatedAsyncioTestCase
 
-class TestVyperWebsocketClient(unittest.IsolatedAsyncioTestCase):
+class TestVyperWebsocketClient(IsolatedAsyncioTestCase):
     def setUp(self):
         self.client = VyperWebsocketClient(api_key="test_api_key")
         self.test_feed_type = FeedType.TOKEN_EVENTS
