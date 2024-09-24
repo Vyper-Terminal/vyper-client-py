@@ -113,7 +113,7 @@ class TestVyperClient(unittest.TestCase):
         mock_request.return_value.json.return_value = mock_response
         mock_request.return_value.raise_for_status.return_value = None
 
-        response = self.client.get_token_ath(chain_id=1, market_id="BTC")
+        response = self.client.get_token_ath(chain_id=1, market_id="test-market")
 
         self.assertIsInstance(response, TokenATH)
         self.assertEqual(response.market_cap_usd, 1000000000)
@@ -122,7 +122,7 @@ class TestVyperClient(unittest.TestCase):
         mock_request.assert_called_once_with(
             "GET",
             "https://api.vyper.trade/api/v1/token/ath",
-            params={"chainID": 1, "marketID": "BTC"}
+            params={"chainID": 1, "marketID": "test-market"}
         )
 
     @patch("src.vyper_client_py.client.requests.Session.request")
@@ -145,7 +145,7 @@ class TestVyperClient(unittest.TestCase):
                 "isMigrated": False,
                 "lpBurned": False,
                 "lpCreator": "0xabcdef1234567890",
-                "marketId": "TEST-SOL",
+                "marketId": "test-market",
                 "metadataUri": "https://example.com/metadata.json",
                 "migratedMarketId": "",
                 "migrationState": {
@@ -182,16 +182,16 @@ class TestVyperClient(unittest.TestCase):
         mock_request.return_value.json.return_value = mock_response
         mock_request.return_value.raise_for_status.return_value = None
 
-        response = self.client.get_token_market(market_id="TEST-SOL")
+        response = self.client.get_token_market(market_id="test-market")
 
         self.assertIsInstance(response, TokenPair)
-        self.assertEqual(response.market_id, "TEST-SOL")
+        self.assertEqual(response.market_id, "test-market")
         self.assertEqual(response.chain_id, 900)
         self.assertIsInstance(response.migration_state, MigrationState)
         self.assertEqual(response.migration_state.duration_minutes, 0)
         mock_request.assert_called_once_with(
             "GET",
-            "https://api.vyper.trade/api/v1/token/market/TEST-SOL",
+            "https://api.vyper.trade/api/v1/token/market/test-market",
             params={"chainID": 900, "interval": "24h"}
         )
 
@@ -223,7 +223,7 @@ class TestVyperClient(unittest.TestCase):
         mock_request.return_value.json.return_value = mock_response
         mock_request.return_value.raise_for_status.return_value = None
 
-        response = self.client.get_token_holders(market_id="TEST-SOL", chain_id=900)
+        response = self.client.get_token_holders(market_id="test-market", chain_id=900)
 
         self.assertEqual(len(response['holders']), 2)
         self.assertIsInstance(response['holders'][0], TokenHolder)
@@ -231,23 +231,23 @@ class TestVyperClient(unittest.TestCase):
         mock_request.assert_called_once_with(
             "GET",
             "https://api.vyper.trade/api/v1/token/holders",
-            params={"marketID": "TEST-SOL", "chainID": 900}
+            params={"marketID": "test-market", "chainID": 900}
         )
 
     def test_get_token_ath_no_api_key(self):
         client = VyperClient()  
         with self.assertRaises(AuthenticationError):
-            client.get_token_ath(chain_id=1, market_id="BTC")
+            client.get_token_ath(chain_id=1, market_id="test-market")
 
     def test_get_token_market_no_api_key(self):
         client = VyperClient()  
         with self.assertRaises(AuthenticationError):
-            client.get_token_market(market_id="TEST-SOL")
+            client.get_token_market(market_id="test-market")
 
     def test_get_token_holders_no_api_key(self):
         client = VyperClient()  
         with self.assertRaises(AuthenticationError):
-            client.get_token_holders(market_id="TEST-SOL", chain_id=900)
+            client.get_token_holders(market_id="test-market", chain_id=900)
 
     @patch("src.vyper_client_py.client.requests.Session.request")
     def test_get_chain_ids_no_auth(self, mock_request):
@@ -286,7 +286,7 @@ class TestVyperClient(unittest.TestCase):
             "data": [
                 {
                     "marketCapUsd": 1000000,
-                    "marketID": "BTC-USD",
+                    "marketID": "test-market",
                     "tokenLiquidityUsd": 500000,
                     "tokenType": "CRYPTO"
                 }
@@ -299,7 +299,7 @@ class TestVyperClient(unittest.TestCase):
 
         self.assertIsInstance(response[0], TokenMarket)
         self.assertEqual(response[0].market_cap_usd, 1000000)
-        self.assertEqual(response[0].market_id, "BTC-USD")
+        self.assertEqual(response[0].market_id, "test-market")
         self.assertEqual(response[0].token_liquidity_usd, 500000)
         self.assertEqual(response[0].token_type, "CRYPTO")
         mock_request.assert_called_once_with(
@@ -386,7 +386,7 @@ class TestVyperClient(unittest.TestCase):
         mock_request.return_value.json.return_value = mock_response
         mock_request.return_value.raise_for_status.return_value = None
 
-        response = self.client.get_top_traders(market_id="BTC-USD", chain_id=1)
+        response = self.client.get_top_traders(market_id="test-market", chain_id=1)
 
         self.assertIsInstance(response[0], TopTrader)
         self.assertEqual(response[0].invested_amount_tokens, 1000)
@@ -394,7 +394,7 @@ class TestVyperClient(unittest.TestCase):
         mock_request.assert_called_once_with(
             "GET",
             "https://api.vyper.trade/api/v1/token/top-traders",
-            params={"marketID": "BTC-USD", "chainID": 1}
+            params={"marketID": "test-market", "chainID": 1}
         )
 
     @patch("src.vyper_client_py.client.requests.Session.request")
@@ -407,7 +407,7 @@ class TestVyperClient(unittest.TestCase):
                     "chainId": 1,
                     "createdTimestamp": 1632825600,
                     "image": "https://example.com/token.png",
-                    "marketId": "BTC-USD",
+                    "marketId": "test-market",
                     "name": "Bitcoin",
                     "percentChange24h": 2.5,
                     "pooledAsset": 1000000,
@@ -477,13 +477,13 @@ class TestVyperClient(unittest.TestCase):
             "message": "Wallet holdings retrieved successfully",
             "data": [
                 {
-                    "marketId": "BTC-USD",
+                    "marketId": "market1",
                     "tokenHoldings": 0.5,
                     "tokenSymbol": "BTC",
                     "usdValue": 15000.0
                 },
                 {
-                    "marketId": "ETH-USD",
+                    "marketId": "market2",
                     "tokenHoldings": 2.0,
                     "tokenSymbol": "ETH",
                     "usdValue": 4000.0
@@ -498,7 +498,7 @@ class TestVyperClient(unittest.TestCase):
         self.assertIsInstance(response, list)
         self.assertEqual(len(response), 2)
         self.assertIsInstance(response[0], WalletHolding)
-        self.assertEqual(response[0].market_id, "BTC-USD")
+        self.assertEqual(response[0].market_id, "market1")
         self.assertEqual(response[0].token_holdings, 0.5)
         self.assertEqual(response[0].token_symbol, "BTC")
         self.assertEqual(response[0].usd_value, 15000.0)
@@ -528,7 +528,7 @@ class TestVyperClient(unittest.TestCase):
         mock_request.return_value.json.return_value = mock_response
         mock_request.return_value.raise_for_status.return_value = None
 
-        response = self.client.get_wallet_pnl(wallet_address="0x1234...", market_id="BTC-USD", chain_id=1)
+        response = self.client.get_wallet_pnl(wallet_address="0x1234...", market_id="test-market", chain_id=1)
 
         self.assertIsInstance(response, WalletPnL)
         self.assertEqual(response.holder_since, 1632825600)
@@ -539,7 +539,7 @@ class TestVyperClient(unittest.TestCase):
         mock_request.assert_called_once_with(
             "GET",
             "https://api.vyper.trade/wallet/pnl",
-            params={"walletAddress": "0x1234...", "marketID": "BTC-USD", "chainID": 1}
+            params={"walletAddress": "0x1234...", "marketID": "test-market", "chainID": 1}
         )
 
     @patch("src.vyper_client_py.client.requests.Session.request")
@@ -557,7 +557,7 @@ class TestVyperClient(unittest.TestCase):
             self.client.get_wallet_holdings(wallet_address="0x1234...", chain_id=1)
 
         with self.assertRaises(AuthenticationError):
-            self.client.get_wallet_pnl(wallet_address="0x1234...", market_id="BTC-USD", chain_id=1)
+            self.client.get_wallet_pnl(wallet_address="0x1234...", market_id="test-market", chain_id=1)
 
     @patch("src.vyper_client_py.client.requests.Session.request")
     def test_wallet_functions_rate_limit_error(self, mock_request):
@@ -577,7 +577,7 @@ class TestVyperClient(unittest.TestCase):
         self.assertEqual(context.exception.retry_after, 60.0)
 
         with self.assertRaises(RateLimitError) as context:
-            self.client.get_wallet_pnl(wallet_address="0x1234...", market_id="BTC-USD", chain_id=1)
+            self.client.get_wallet_pnl(wallet_address="0x1234...", market_id="test-market", chain_id=1)
         self.assertEqual(context.exception.retry_after, 60.0)
     
     @patch("src.vyper_client_py.client.requests.Session.request")
@@ -603,7 +603,7 @@ class TestVyperClient(unittest.TestCase):
                         "isMigrated": False,
                         "lpBurned": True,
                         "lpCreator": "0x5678...",
-                        "marketId": "TEST-USD",
+                        "marketId": "test-market",
                         "metadataUri": "https://example.com/metadata.json",
                         "migratedMarketId": "",
                         "migrationState": {
@@ -648,7 +648,7 @@ class TestVyperClient(unittest.TestCase):
         self.assertTrue(response.has_next)
         self.assertEqual(len(response.pairs), 1)
         self.assertIsInstance(response.pairs[0], TokenPair)
-        self.assertEqual(response.pairs[0].market_id, "TEST-USD")
+        self.assertEqual(response.pairs[0].market_id, "test-market")
         self.assertEqual(response.pairs[0].symbol, "TEST")
         self.assertIsInstance(response.pairs[0].migration_state, MigrationState)
         
