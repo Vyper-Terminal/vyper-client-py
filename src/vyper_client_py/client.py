@@ -324,7 +324,7 @@ class VyperClient:
             "walletAddress": wallet_address,
             "chainID": chain_id
         }
-        response = self.get("/wallet/holdings", params=params)
+        response = self.get("/api/v1/wallet/holdings", params=params)
         return [WalletHolding(**{
             field.name: holding[field.metadata['alias']]
             for field in fields(WalletHolding)
@@ -352,7 +352,7 @@ class VyperClient:
             "walletAddress": wallet_address,
             "chainID": chain_id
         }
-        response = self.get("/wallet/aggregated-pnl", params=params)
+        response = self.get("/api/v1/wallet/aggregated-pnl", params=params)
         return WalletAggregatedPnL(**{
             field.name: response.data[field.metadata['alias']]
             for field in fields(WalletAggregatedPnL)
@@ -382,7 +382,7 @@ class VyperClient:
             "marketID": market_id,
             "chainID": chain_id
         }
-        response = self.get("/wallet/pnl", params=params)
+        response = self.get("/api/v1/wallet/pnl", params=params)
         return WalletPnL(**{
             field.name: response.data[field.metadata['alias']]
             for field in fields(WalletPnL)
@@ -457,7 +457,7 @@ class VyperClient:
             if k != 'self' and v is not None
         }
         
-        response = self.get("/token/pairs", params=params)
+        response = self.get("/api/v1/token/pairs", params=params)
         
         pairs = [TokenPair(**{
         field.name: pair.get(field.metadata.get('alias', field.name))
