@@ -102,4 +102,4 @@ asyncio.run(main())
 For detailed information on the Vyper API, refer to the official documentation:
 
 - API Dashboard: [Vyper Dashboard](https://build.vyper.trade/)
-- API Documentation: [Vyper API Docs](ttps://docs.vyper.trade/)
+- API Documentation: [Vyper API Docs](https://docs.vyper.trade/)
