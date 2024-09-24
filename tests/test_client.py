@@ -466,7 +466,7 @@ class TestVyperClient(unittest.TestCase):
         self.assertEqual(response.pnl_usd, 105.0)
         mock_request.assert_called_once_with(
             "GET",
-            "https://api.vyper.trade/wallet/aggregated-pnl",
+            "https://api.vyper.trade/api/v1/wallet/aggregated-pnl",
             params={"walletAddress": "0x1234...", "chainID": 1}
         )
 
@@ -504,7 +504,7 @@ class TestVyperClient(unittest.TestCase):
         self.assertEqual(response[0].usd_value, 15000.0)
         mock_request.assert_called_once_with(
             "GET",
-            "https://api.vyper.trade/wallet/holdings",
+            "https://api.vyper.trade/api/v1/wallet/holdings",
             params={"walletAddress": "0x1234...", "chainID": 1}
         )
 
@@ -538,7 +538,7 @@ class TestVyperClient(unittest.TestCase):
         self.assertEqual(response.pnl_usd, 105.0)
         mock_request.assert_called_once_with(
             "GET",
-            "https://api.vyper.trade/wallet/pnl",
+            "https://api.vyper.trade/api/v1/wallet/pnl",
             params={"walletAddress": "0x1234...", "marketID": "test-market", "chainID": 1}
         )
 
@@ -654,7 +654,7 @@ class TestVyperClient(unittest.TestCase):
         
         mock_request.assert_called_once_with(
         "GET",
-        "https://api.vyper.trade/token/pairs",
+        "https://api.vyper.trade/api/v1/token/pairs",
         params={'chain_ids': '1', 'liquidity_min': 100, 'page': 1}
     )
 
